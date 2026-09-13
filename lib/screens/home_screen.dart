@@ -11,6 +11,8 @@ import '../widgets/section_header.dart';
 import '../widgets/category_card.dart';
 import '../widgets/vendor_card.dart';
 import '../widgets/destination_card.dart';
+import '../widgets/state_card.dart';
+import '../models/state_model.dart';
 import 'notifications_screen.dart';
 import 'vendor_listing_screen.dart';
 import 'vendor_details_screen.dart';
@@ -27,8 +29,18 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final ScrollController _categoriesScrollController = ScrollController();
-  final ScrollController _vendorsScrollController = ScrollController();
-  final ScrollController _destinationsScrollController = ScrollController();
+
+  String _selectedDestinationState = 'All';
+
+  final List<String> _destinationStates = [
+    'All',
+    'Gujarat',
+    'Rajasthan',
+    'Goa',
+    'Kerala',
+    'Uttarakhand',
+    'Himachal',
+  ];
 
   @override
   void initState() {
@@ -46,8 +58,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void dispose() {
     _categoriesScrollController.dispose();
-    _vendorsScrollController.dispose();
-    _destinationsScrollController.dispose();
     super.dispose();
   }
 
@@ -56,6 +66,17 @@ class _HomeScreenState extends State<HomeScreen> {
     final authProvider = Provider.of<AuthProvider>(context);
     final vendorProvider = Provider.of<VendorProvider>(context);
     final user = authProvider.user;
+
+    final screenWidth = MediaQuery.of(context).size.width;
+    final bool isDesktop = screenWidth >= 768;
+    final int gridColumnCount = isDesktop ? 3 : 1;
+
+    final filteredDestinations = vendorProvider.destinations.where((d) {
+      if (_selectedDestinationState == 'All') return true;
+      final stateQuery = _selectedDestinationState.toLowerCase();
+      return d.location.toLowerCase().contains(stateQuery) ||
+             d.title.toLowerCase().contains(stateQuery);
+    }).toList();
 
     return Scaffold(
       backgroundColor: AppTheme.background,
@@ -341,40 +362,38 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
                 const SizedBox(height: 12),
-                SizedBox(
-                  height: 236,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: vendorProvider.vendors.isEmpty
                       ? const Center(child: CircularProgressIndicator(color: AppTheme.primary))
-                      : RawScrollbar(
-                          controller: _vendorsScrollController,
-                          thumbVisibility: true,
-                          trackVisibility: true,
-                          thumbColor: AppTheme.primary,
-                          trackColor: AppTheme.accent.withValues(alpha: 0.2),
-                          radius: const Radius.circular(10),
-                          thickness: 5,
-                          padding: const EdgeInsets.only(bottom: 2, left: 16, right: 16),
-                          child: ListView.builder(
-                            controller: _vendorsScrollController,
-                            scrollDirection: Axis.horizontal,
-                            padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-                            itemCount: vendorProvider.vendors.length,
-                            itemBuilder: (context, index) {
-                              final vendor = vendorProvider.vendors[index];
-                              return VendorCard(
-                                vendor: vendor,
-                                isFavorite: vendorProvider.isFavorite(vendor.id),
-                                onFavoriteToggle: () => vendorProvider.toggleFavorite(vendor.id),
-                                onTap: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (_) => VendorDetailsScreen(vendorId: vendor.id),
-                                    ),
-                                  );
-                                },
-                              );
-                            },
+                      : GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: gridColumnCount,
+                            mainAxisExtent: 186,
+                            crossAxisSpacing: 14,
+                            mainAxisSpacing: 14,
                           ),
+                          itemCount: isDesktop
+                              ? (vendorProvider.vendors.length > 6 ? 6 : vendorProvider.vendors.length)
+                              : (vendorProvider.vendors.length > 4 ? 4 : vendorProvider.vendors.length),
+                          itemBuilder: (context, index) {
+                            final vendor = vendorProvider.vendors[index];
+                            return VendorCard(
+                              vendor: vendor,
+                              width: double.infinity,
+                              isFavorite: vendorProvider.isFavorite(vendor.id),
+                              onFavoriteToggle: () => vendorProvider.toggleFavorite(vendor.id),
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (_) => VendorDetailsScreen(vendorId: vendor.id),
+                                  ),
+                                );
+                              },
+                            );
+                          },
                         ),
                 ),
 
@@ -391,38 +410,112 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                   },
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 10),
+
+                // State Filter Chips for Home Screen Destinations
                 SizedBox(
-                  height: 202,
+                  height: 42,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    itemCount: _destinationStates.length,
+                    itemBuilder: (context, index) {
+                      final stateName = _destinationStates[index];
+                      final isSelected = _selectedDestinationState == stateName;
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: ChoiceChip(
+                          label: Text(
+                            stateName,
+                            style: GoogleFonts.poppins(
+                              fontSize: 11.5,
+                              fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                              color: isSelected ? Colors.white : AppTheme.primary,
+                            ),
+                          ),
+                          selected: isSelected,
+                          selectedColor: AppTheme.primary,
+                          backgroundColor: AppTheme.roseLight,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                          side: BorderSide(
+                            color: isSelected ? AppTheme.primary : AppTheme.accent.withValues(alpha: 0.3),
+                          ),
+                          onSelected: (selected) {
+                            if (selected) {
+                              setState(() => _selectedDestinationState = stateName);
+                            }
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(height: 14),
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: vendorProvider.destinations.isEmpty
                       ? const Center(child: CircularProgressIndicator(color: AppTheme.primary))
-                      : RawScrollbar(
-                          controller: _destinationsScrollController,
-                          thumbVisibility: true,
-                          trackVisibility: true,
-                          thumbColor: AppTheme.primary,
-                          trackColor: AppTheme.accent.withValues(alpha: 0.2),
-                          radius: const Radius.circular(10),
-                          thickness: 5,
-                          padding: const EdgeInsets.only(bottom: 2, left: 16, right: 16),
-                          child: ListView.builder(
-                            controller: _destinationsScrollController,
-                            scrollDirection: Axis.horizontal,
-                            padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-                            itemCount: vendorProvider.destinations.length,
-                            itemBuilder: (context, index) {
-                              final dest = vendorProvider.destinations[index];
-                              return DestinationCard(
-                                destination: dest,
-                                onTap: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(builder: (_) => DestinationDetailsScreen(destination: dest)),
-                                  );
-                                },
-                              );
-                            },
-                          ),
-                        ),
+                      : _selectedDestinationState == 'All'
+                          ? GridView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: gridColumnCount,
+                                mainAxisExtent: 196,
+                                crossAxisSpacing: 14,
+                                mainAxisSpacing: 14,
+                              ),
+                              itemCount: StateModel.defaultStates.length,
+                              itemBuilder: (context, index) {
+                                final stateItem = StateModel.defaultStates[index];
+                                return StateCard(
+                                  stateItem: stateItem,
+                                  width: double.infinity,
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (_) => DestinationWeddingScreen(
+                                          initialState: stateItem.stateName,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                            )
+                          : filteredDestinations.isEmpty
+                              ? Container(
+                                  padding: const EdgeInsets.symmetric(vertical: 24),
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    "No destinations found in $_selectedDestinationState.",
+                                    style: GoogleFonts.poppins(color: AppTheme.textMuted),
+                                  ),
+                                )
+                              : GridView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: gridColumnCount,
+                                    mainAxisExtent: 196,
+                                    crossAxisSpacing: 14,
+                                    mainAxisSpacing: 14,
+                                  ),
+                                  itemCount: filteredDestinations.length,
+                                  itemBuilder: (context, index) {
+                                    final dest = filteredDestinations[index];
+                                    return DestinationCard(
+                                      destination: dest,
+                                      width: double.infinity,
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(builder: (_) => DestinationDetailsScreen(destination: dest)),
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
                 ),
 
                 const SizedBox(height: 36),

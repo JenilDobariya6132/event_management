@@ -1,5 +1,6 @@
 // lib/main.dart
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'config/theme.dart';
@@ -15,6 +16,16 @@ import 'screens/splash_screen.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const RoyalWeddingApp());
+}
+
+class AppScrollBehavior extends MaterialScrollBehavior {
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+        PointerDeviceKind.trackpad,
+        PointerDeviceKind.stylus,
+      };
 }
 
 class RoyalWeddingApp extends StatelessWidget {
@@ -36,6 +47,7 @@ class RoyalWeddingApp extends StatelessWidget {
         title: 'Royal Wedding Event Management',
         debugShowCheckedModeBanner: false,
         theme: AppTheme.luxuryTheme,
+        scrollBehavior: AppScrollBehavior(),
         home: const SplashScreen(),
       ),
     );

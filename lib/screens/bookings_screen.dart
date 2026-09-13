@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import '../config/theme.dart';
 import '../providers/booking_provider.dart';
 import 'payment_screen.dart';
+import 'wedding_booking_dashboard_screen.dart';
 
 class BookingsScreen extends StatefulWidget {
   const BookingsScreen({super.key});
@@ -40,6 +41,17 @@ class _BookingsScreenState extends State<BookingsScreen> with SingleTickerProvid
     return Scaffold(
       appBar: AppBar(
         title: const Text("My Bookings"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.dashboard_customize_rounded, color: AppTheme.primary),
+            tooltip: "Booking Dashboard",
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const WeddingBookingDashboardScreen()),
+              );
+            },
+          ),
+        ],
         bottom: TabBar(
           controller: _tabController,
           isScrollable: true,

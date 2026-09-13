@@ -1,6 +1,8 @@
 // lib/widgets/empty_state_widget.dart
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../config/theme.dart';
 
 class EmptyStateWidget extends StatelessWidget {
   final IconData icon;
@@ -26,17 +28,17 @@ class EmptyStateWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 72, color: const Color(0xFFD4AF37).withValues(alpha: 0.5)),
+            Icon(icon, size: 72, color: AppTheme.primary.withValues(alpha: 0.4)),
             const SizedBox(height: 16),
             Text(
               title,
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF4A1525)),
+              style: GoogleFonts.playfairDisplay(fontSize: 19, fontWeight: FontWeight.bold, color: AppTheme.primary),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 8),
             Text(
               message,
-              style: const TextStyle(fontSize: 14, color: Colors.grey),
+              style: GoogleFonts.poppins(fontSize: 13, color: AppTheme.textMuted),
               textAlign: TextAlign.center,
             ),
             if (actionLabel != null && onAction != null) ...[

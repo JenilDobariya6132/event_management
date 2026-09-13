@@ -1,6 +1,8 @@
 // lib/widgets/section_header.dart
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../config/theme.dart';
 
 class SectionHeader extends StatelessWidget {
   final String title;
@@ -24,36 +26,53 @@ class SectionHeader extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF4A1525),
-                  letterSpacing: 0.3,
-                ),
-              ),
-              if (subtitle != null) ...[
-                const SizedBox(height: 2),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
                 Text(
-                  subtitle!,
-                  style: const TextStyle(fontSize: 12, color: Colors.grey),
+                  title,
+                  style: GoogleFonts.playfairDisplay(
+                    fontSize: 19,
+                    fontWeight: FontWeight.bold,
+                    color: AppTheme.primary,
+                    letterSpacing: 0.3,
+                  ),
                 ),
+                if (subtitle != null) ...[
+                  const SizedBox(height: 2),
+                  Text(
+                    subtitle!,
+                    style: GoogleFonts.poppins(fontSize: 12, color: AppTheme.textMuted),
+                  ),
+                ],
               ],
-            ],
+            ),
           ),
           if (actionLabel != null && onAction != null)
             GestureDetector(
               onTap: onAction,
-              child: Text(
-                actionLabel!,
-                style: const TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: Color(0xFFD4AF37),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(
+                  color: AppTheme.roseLight,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: AppTheme.primary.withValues(alpha: 0.2)),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      actionLabel!,
+                      style: GoogleFonts.poppins(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: AppTheme.primary,
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    const Icon(Icons.arrow_forward_ios_rounded, size: 10, color: AppTheme.primary),
+                  ],
                 ),
               ),
             ),

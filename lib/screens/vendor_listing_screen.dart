@@ -47,7 +47,7 @@ class _VendorListingScreenState extends State<VendorListingScreen> {
                   padding: const EdgeInsets.all(16),
                   gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                     maxCrossAxisExtent: 320,
-                    mainAxisExtent: 216,
+                    mainAxisExtent: 186,
                     crossAxisSpacing: 14,
                     mainAxisSpacing: 14,
                   ),

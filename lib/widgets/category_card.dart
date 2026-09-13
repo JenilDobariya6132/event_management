@@ -19,21 +19,70 @@ class CategoryCard extends StatelessWidget {
   IconData _getCategoryIcon(String iconName) {
     switch (iconName.toLowerCase()) {
       case 'location_city':
+      case 'venue':
         return Icons.castle_outlined;
       case 'camera_alt':
+      case 'photo':
         return Icons.camera_outlined;
       case 'restaurant':
+      case 'caterer':
         return Icons.restaurant_outlined;
       case 'brush':
+      case 'makeup':
         return Icons.brush_outlined;
       case 'palette':
+      case 'decorator':
         return Icons.palette_outlined;
       case 'checkroom':
+      case 'bridal':
         return Icons.checkroom_outlined;
-      case 'music_note':
-        return Icons.music_note_outlined;
+      case 'styler':
+      case 'groom':
       case 'dry_cleaning':
+      case 'suit':
+        return Icons.dry_cleaning_outlined;
+      case 'music_note':
+      case 'dj':
+        return Icons.music_note_outlined;
+      case 'back_hand':
+      case 'hand':
+      case 'mehndi':
         return Icons.back_hand_outlined;
+      case 'event':
+      case 'planner':
+        return Icons.event_available_outlined;
+      case 'card_giftcard':
+      case 'invitation':
+        return Icons.mark_email_read_outlined;
+      case 'diamond':
+      case 'jewelry':
+        return Icons.diamond_outlined;
+      case 'auto_awesome':
+      case 'pandit':
+        return Icons.auto_awesome_outlined;
+      case 'directions_run':
+      case 'dance':
+      case 'choreography':
+        return Icons.accessibility_new_outlined;
+      case 'cake':
+      case 'sweets':
+        return Icons.cake_outlined;
+      case 'local_bar':
+      case 'bar':
+        return Icons.local_bar_outlined;
+      case 'directions_car':
+      case 'car':
+        return Icons.directions_car_outlined;
+      case 'gift':
+      case 'favors':
+        return Icons.card_giftcard_outlined;
+      case 'flight_takeoff':
+      case 'honeymoon':
+        return Icons.flight_takeoff_outlined;
+      case 'celebration':
+      case 'artist':
+      case 'entertainment':
+        return Icons.celebration_outlined;
       default:
         return Icons.celebration_outlined;
     }
@@ -48,8 +97,8 @@ class CategoryCard extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              width: 74,
-              height: 74,
+              width: 72,
+              height: 72,
               padding: const EdgeInsets.all(3),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
@@ -73,18 +122,20 @@ class CategoryCard extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 6),
             SizedBox(
-              width: 82,
+              width: 86,
+              height: 34,
               child: Text(
                 category.name,
                 textAlign: TextAlign.center,
-                maxLines: 1,
+                maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.poppins(
-                  fontSize: 12,
+                  fontSize: 11,
                   fontWeight: FontWeight.w600,
                   color: AppTheme.primary,
+                  height: 1.15,
                 ),
               ),
             ),
@@ -107,4 +158,3 @@ class CategoryCard extends StatelessWidget {
     );
   }
 }
-

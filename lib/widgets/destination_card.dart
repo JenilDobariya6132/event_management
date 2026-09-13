@@ -9,18 +9,23 @@ import '../models/destination_model.dart';
 class DestinationCard extends StatelessWidget {
   final DestinationModel destination;
   final VoidCallback onTap;
+  final double? width;
 
   const DestinationCard({
     super.key,
     required this.destination,
     required this.onTap,
+    this.width = 280,
   });
 
   @override
   Widget build(BuildContext context) {
+    final bool isFixed = width != null && width != double.infinity;
     return Container(
-      width: 280,
-      margin: const EdgeInsets.only(right: 16, bottom: 8, top: 4),
+      width: width,
+      margin: isFixed
+          ? const EdgeInsets.only(right: 16, bottom: 8, top: 4)
+          : EdgeInsets.zero,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: AppTheme.accent.withValues(alpha: 0.3), width: 1),

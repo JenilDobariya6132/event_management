@@ -400,11 +400,17 @@ class _VenueDetailsScreenState extends State<VenueDetailsScreen> {
                         ),
                       ),
                       const SizedBox(height: 12),
-                      _buildEventSpaceCard("Royal Mandap Lawn", "Outdoor Floral Mandap & Ceremony", "500 - 1200 Guests", Icons.deck),
-                      const SizedBox(height: 10),
-                      _buildEventSpaceCard("Grand Crystal Ballroom", "Indoor Air-Conditioned Banquet", "300 - 600 Guests", Icons.meeting_room),
-                      const SizedBox(height: 10),
-                      _buildEventSpaceCard("Poolside Sangeet Terrace", "Sunset Cocktail & Music Party", "200 - 450 Guests", Icons.pool),
+                      ...widget.venue.getEventSpaces().map((space) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: _buildEventSpaceCard(
+                            space.name,
+                            space.description,
+                            space.capacity,
+                            space.icon,
+                          ),
+                        );
+                      }),
                     ],
                   ),
                 ),

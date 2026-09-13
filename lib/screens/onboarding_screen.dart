@@ -1,6 +1,8 @@
 // lib/screens/onboarding_screen.dart
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../config/theme.dart';
 import 'login_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -61,7 +63,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         end: Alignment.bottomCenter,
                         colors: [
                           Colors.black.withValues(alpha: 0.3),
-                          Colors.black.withValues(alpha: 0.85),
+                          AppTheme.primaryDark.withValues(alpha: 0.9),
                         ],
                       ),
                     ),
@@ -75,7 +77,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       children: [
                         Text(
                           _onboardingData[index]["title"]!,
-                          style: const TextStyle(
+                          style: GoogleFonts.playfairDisplay(
                             color: Colors.white,
                             fontSize: 28,
                             fontWeight: FontWeight.bold,
@@ -85,8 +87,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         const SizedBox(height: 12),
                         Text(
                           _onboardingData[index]["subtitle"]!,
-                          style: const TextStyle(
-                            color: Color(0xFFF4E8C1),
+                          style: GoogleFonts.poppins(
+                            color: AppTheme.accentLight,
                             fontSize: 15,
                             height: 1.4,
                           ),
@@ -117,7 +119,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       height: 8,
                       width: _currentPage == index ? 24 : 8,
                       decoration: BoxDecoration(
-                        color: _currentPage == index ? const Color(0xFFD4AF37) : Colors.white54,
+                        color: _currentPage == index ? AppTheme.accentLight : Colors.white54,
                         borderRadius: BorderRadius.circular(4),
                       ),
                     ),
@@ -139,8 +141,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFD4AF37),
-                    foregroundColor: const Color(0xFF4A1525),
+                    backgroundColor: AppTheme.primary,
+                    foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
                   ),

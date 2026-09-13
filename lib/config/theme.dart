@@ -4,44 +4,44 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
-  // Ultra-Luxury Royal Wedding Palette
-  static const Color primary = Color(0xFF4A1027);        // Imperial Deep Burgundy
-  static const Color primaryDark = Color(0xFF2D0917);    // Midnight Burgundy
-  static const Color primaryLight = Color(0xFF7A2042);   // Crimson Velvet
-  static const Color accent = Color(0xFFD4AF37);         // Royal Metallic Gold
-  static const Color accentLight = Color(0xFFF7E7B4);    // Champagne Gold Shimmer
-  static const Color accentDark = Color(0xFFAA820A);     // Deep Antique Gold
-  static const Color rose = Color(0xFFE8A0A8);          // Dusky Rose Pink
-  static const Color roseLight = Color(0xFFFFF2F4);     // Blush Cream
-  static const Color background = Color(0xFFFDFBF7);    // Ivory Porcelain Cream
-  static const Color cardBg = Color(0xFFFFFFFF);        // Pure Crisp White
-  static const Color textDark = Color(0xFF1F1A1C);      // Dark Velvet Charcoal
-  static const Color textMuted = Color(0xFF6E6569);     // Warm Taupe Grey
-  static const Color success = Color(0xFF1B6B40);       // Royal Emerald Green
-  static const Color warning = Color(0xFFD97706);       // Warm Amber Gold
-  static const Color error = Color(0xFFC5221F);         // Deep Ruby Red
+  // Ultra-Luxury Sage & Dark Olive Palette (#EBEEDF & #333C30)
+  static const Color primary = Color(0xFF333C30);        // Dark Forest Olive (#333C30)
+  static const Color primaryDark = Color(0xFF222920);    // Midnight Olive (#222920)
+  static const Color primaryLight = Color(0xFF4B5747);   // Soft Forest Green (#4B5747)
+  static const Color accent = Color(0xFF4B5747);         // Deep Olive Accent (#4B5747)
+  static const Color accentLight = Color(0xFFDFE4D4);    // Light Olive Tint (#DFE4D4)
+  static const Color accentDark = Color(0xFF222920);     // Dark Antique Olive (#222920)
+  static const Color rose = Color(0xFF9EAA96);           // Muted Sage (#9EAA96)
+  static const Color roseLight = Color(0xFFF4F6EE);      // Very Light Sage Cream (#F4F6EE)
+  static const Color background = Color(0xFFEBEEDF);     // Sage Porcelain Cream (#EBEEDF)
+  static const Color cardBg = Color(0xFFFFFFFF);         // Pure Crisp White
+  static const Color textDark = Color(0xFF1E241C);       // Dark Pine Charcoal
+  static const Color textMuted = Color(0xFF5B6557);      // Muted Sage Grey
+  static const Color success = Color(0xFF2C6B38);        // Emerald Olive Green
+  static const Color warning = Color(0xFFC07020);        // Warm Amber
+  static const Color error = Color(0xFFC5221F);          // Deep Ruby Red
 
-  // Luxurious Gradients
+  // Luxurious Sage & Olive Gradients
   static const LinearGradient primaryGradient = LinearGradient(
-    colors: [Color(0xFF5B1731), Color(0xFF380C1C)],
+    colors: [Color(0xFF333C30), Color(0xFF222920)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
 
   static const LinearGradient goldGradient = LinearGradient(
-    colors: [Color(0xFFF7E7B4), Color(0xFFD4AF37), Color(0xFFAA820A)],
+    colors: [Color(0xFFEBEEDF), Color(0xFFDFE4D4), Color(0xFFC8D1BB)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
 
   static const LinearGradient roseGradient = LinearGradient(
-    colors: [Color(0xFFFFF2F4), Color(0xFFFBE4E7)],
+    colors: [Color(0xFFF4F6EE), Color(0xFFEBEEDF)],
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
   );
 
   static const LinearGradient darkOverlayGradient = LinearGradient(
-    colors: [Colors.transparent, Color(0xCC1F1A1C), Color(0xF71F1A1C)],
+    colors: [Colors.transparent, Color(0xCC222920), Color(0xF71E241C)],
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
   );
@@ -49,13 +49,13 @@ class AppTheme {
   // Luxury Card Shadows
   static List<BoxShadow> luxuryShadow = [
     BoxShadow(
-      color: primary.withValues(alpha: 0.07),
+      color: primary.withValues(alpha: 0.08),
       blurRadius: 20,
       offset: const Offset(0, 8),
       spreadRadius: 0,
     ),
     BoxShadow(
-      color: accent.withValues(alpha: 0.05),
+      color: primary.withValues(alpha: 0.04),
       blurRadius: 10,
       offset: const Offset(0, 2),
       spreadRadius: 0,
@@ -64,7 +64,7 @@ class AppTheme {
 
   static List<BoxShadow> goldGlowShadow = [
     BoxShadow(
-      color: accent.withValues(alpha: 0.35),
+      color: primary.withValues(alpha: 0.25),
       blurRadius: 16,
       offset: const Offset(0, 4),
     ),
@@ -74,14 +74,14 @@ class AppTheme {
   static BoxDecoration glassCardDecoration = BoxDecoration(
     color: cardBg.withValues(alpha: 0.92),
     borderRadius: BorderRadius.circular(20),
-    border: Border.all(color: accent.withValues(alpha: 0.25), width: 1),
+    border: Border.all(color: primary.withValues(alpha: 0.2), width: 1),
     boxShadow: luxuryShadow,
   );
 
   static BoxDecoration goldBorderDecoration = BoxDecoration(
     color: cardBg,
     borderRadius: BorderRadius.circular(16),
-    border: Border.all(color: accent.withValues(alpha: 0.4), width: 1.2),
+    border: Border.all(color: primary.withValues(alpha: 0.3), width: 1.2),
     boxShadow: luxuryShadow,
   );
 
@@ -116,7 +116,7 @@ class AppTheme {
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
-          side: BorderSide(color: primary.withValues(alpha: 0.06), width: 1),
+          side: BorderSide(color: primary.withValues(alpha: 0.08), width: 1),
         ),
       ),
 
@@ -167,7 +167,7 @@ class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: accent, width: 2),
+          borderSide: const BorderSide(color: primary, width: 2),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
@@ -181,4 +181,3 @@ class AppTheme {
     );
   }
 }
-

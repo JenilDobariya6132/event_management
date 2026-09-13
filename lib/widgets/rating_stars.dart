@@ -1,6 +1,7 @@
 // lib/widgets/rating_stars.dart
 
 import 'package:flutter/material.dart';
+import '../config/theme.dart';
 
 class RatingStars extends StatelessWidget {
   final double rating;
@@ -11,7 +12,7 @@ class RatingStars extends StatelessWidget {
     super.key,
     required this.rating,
     this.size = 16.0,
-    this.color = const Color(0xFFD4AF37),
+    this.color = AppTheme.primary,
   });
 
   @override

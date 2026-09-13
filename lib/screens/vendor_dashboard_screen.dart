@@ -68,9 +68,7 @@ class _VendorDashboardScreenState extends State<VendorDashboardScreen> {
             Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [Color(0xFF4A1525), Color(0xFF2D0B16)],
-                ),
+                gradient: AppTheme.primaryGradient,
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Column(
@@ -78,7 +76,7 @@ class _VendorDashboardScreenState extends State<VendorDashboardScreen> {
                 children: [
                   Text("Welcome, ${user?.fullName ?? 'Vendor'}", style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
                   const SizedBox(height: 4),
-                  const Text("Manage customer booking inquiries & business profile", style: TextStyle(color: Color(0xFFF4E8C1), fontSize: 13)),
+                  const Text("Manage customer booking inquiries & business profile", style: TextStyle(color: AppTheme.accentLight, fontSize: 13)),
                   const SizedBox(height: 16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -87,7 +85,7 @@ class _VendorDashboardScreenState extends State<VendorDashboardScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text("Total Revenue", style: TextStyle(color: Colors.white70, fontSize: 12)),
-                          Text(currencyFormatter.format(totalEarnings), style: const TextStyle(color: Color(0xFFD4AF37), fontSize: 20, fontWeight: FontWeight.bold)),
+                          Text(currencyFormatter.format(totalEarnings), style: const TextStyle(color: AppTheme.accentLight, fontSize: 20, fontWeight: FontWeight.bold)),
                         ],
                       ),
                       Column(

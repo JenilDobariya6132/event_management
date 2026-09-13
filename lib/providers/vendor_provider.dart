@@ -95,22 +95,38 @@ class VendorProvider with ChangeNotifier {
       if (_popularVendors.isEmpty) {
         _popularVendors = List.from(_vendors);
       }
-    } else if (_vendors.isEmpty) {
-      _vendors = _getDefaultVendors();
-      _popularVendors = List.from(_vendors);
-    }
+    } else {
+      // Seed Data Offline Mode: Always query against fresh full seed vendor list
+      final allDefault = _getDefaultVendors();
+      if (_popularVendors.isEmpty) {
+        _popularVendors = List.from(allDefault);
+      }
 
-    // Local client side filtering if offline
-    if (res['success'] != true) {
+      List<VendorModel> filtered = List.from(allDefault);
+
       if (categoryId != null && categoryId > 0) {
-        _vendors = _vendors.where((v) => v.categoryId == categoryId).toList();
+        filtered = filtered.where((v) => v.categoryId == categoryId).toList();
       }
       if (city != null && city.isNotEmpty && city != 'All') {
-        _vendors = _vendors.where((v) => v.city.toLowerCase() == city.toLowerCase()).toList();
+        filtered = filtered.where((v) =>
+          v.city.toLowerCase().contains(city.toLowerCase()) ||
+          (v.address ?? '').toLowerCase().contains(city.toLowerCase())
+        ).toList();
       }
       if (search != null && search.isNotEmpty) {
-        _vendors = _vendors.where((v) => v.businessName.toLowerCase().contains(search.toLowerCase()) || (v.categoryName ?? '').toLowerCase().contains(search.toLowerCase())).toList();
+        final q = search.toLowerCase();
+        filtered = filtered.where((v) =>
+          v.businessName.toLowerCase().contains(q) ||
+          (v.categoryName ?? '').toLowerCase().contains(q) ||
+          v.city.toLowerCase().contains(q) ||
+          (v.description ?? '').toLowerCase().contains(q)
+        ).toList();
       }
+      if (minRating != null && minRating > 0) {
+        filtered = filtered.where((v) => v.rating >= minRating).toList();
+      }
+
+      _vendors = filtered;
     }
 
     _isLoading = false;
@@ -202,9 +218,21 @@ class VendorProvider with ChangeNotifier {
       CategoryModel(id: 3, name: 'Caterers', icon: 'restaurant', description: 'Gourmet Indian & International Cuisine'),
       CategoryModel(id: 4, name: 'Makeup Artists', icon: 'brush', description: 'Bridal & Party Makeup Professionals'),
       CategoryModel(id: 5, name: 'Decorators', icon: 'palette', description: 'Theme & Stage Floral Decorators'),
-      CategoryModel(id: 6, name: 'Bridal Wear', icon: 'checkroom', description: 'Designer Lehengas & Sarees'),
-      CategoryModel(id: 7, name: 'DJs & Music', icon: 'music_note', description: 'Live Bands, DJs & Sound Systems'),
-      CategoryModel(id: 8, name: 'Mehndi Artists', icon: 'dry_cleaning', description: 'Traditional & Bridal Mehndi'),
+      CategoryModel(id: 6, name: 'Bridal Wear', icon: 'checkroom', description: 'Designer Lehengas, Sarees & Gowns'),
+      CategoryModel(id: 7, name: 'Groom Wear', icon: 'styler', description: 'Royal Sherwanis, Tuxedos & Indo-Western'),
+      CategoryModel(id: 8, name: 'DJs & Music', icon: 'music_note', description: 'Live Bands, DJs & Sound Systems'),
+      CategoryModel(id: 9, name: 'Mehndi Artists', icon: 'back_hand', description: 'Traditional & Bridal Organic Mehndi'),
+      CategoryModel(id: 10, name: 'Wedding Planners', icon: 'event', description: 'Full Service & Luxury Event Coordination'),
+      CategoryModel(id: 11, name: 'Invitations & Cards', icon: 'card_giftcard', description: 'Digital, Boxed & Traditional E-Invites'),
+      CategoryModel(id: 12, name: 'Jewelry & Accessories', icon: 'diamond', description: 'Kundan, Polki & Gold Wedding Jewelry'),
+      CategoryModel(id: 13, name: 'Pandits & Priests', icon: 'auto_awesome', description: 'Vedic Pandits, Pujaris & Ritual Officiants'),
+      CategoryModel(id: 14, name: 'Choreographers', icon: 'directions_run', description: 'Sangeet & Couple Dance Choreography'),
+      CategoryModel(id: 15, name: 'Cakes & Sweets', icon: 'cake', description: 'Custom Wedding Cakes & Traditional Mithai'),
+      CategoryModel(id: 16, name: 'Bar & Mixologists', icon: 'local_bar', description: 'Craft Cocktails, Bar Setups & Bartenders'),
+      CategoryModel(id: 17, name: 'Vintage Cars', icon: 'directions_car', description: 'Vintage Cars, Limousines & Guest Buses'),
+      CategoryModel(id: 18, name: 'Gifts & Favors', icon: 'gift', description: 'Custom Return Gifts & Luxury Hampers'),
+      CategoryModel(id: 19, name: 'Honeymoon Tours', icon: 'flight_takeoff', description: 'Romantic Luxury Tours & Island Resorts'),
+      CategoryModel(id: 20, name: 'Entertainment', icon: 'celebration', description: 'Folk Dancers, Shehnai Players & Live Acts'),
     ];
   }
 
@@ -241,6 +269,66 @@ class VendorProvider with ChangeNotifier {
         description: 'Award-winning wedding photography team capturing magical moments with cinematic brilliance.',
       ),
       VendorModel(
+        id: 21,
+        userId: 22,
+        businessName: 'Stories by Joseph Radhik',
+        categoryId: 2,
+        categoryName: 'Photographers',
+        city: 'Mumbai',
+        address: 'Bandra West, Mumbai',
+        startingPrice: 120000.0,
+        rating: 5.0,
+        totalReviews: 95,
+        status: 'approved',
+        profileImage: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
+        description: 'Celebrity candid wedding photography & cinematic films capturing royal emotions.',
+      ),
+      VendorModel(
+        id: 22,
+        userId: 23,
+        businessName: 'Mewar Royal Tales Photography',
+        categoryId: 2,
+        categoryName: 'Photographers',
+        city: 'Udaipur',
+        address: 'Lake Palace Road, Udaipur',
+        startingPrice: 65000.0,
+        rating: 4.9,
+        totalReviews: 44,
+        status: 'approved',
+        profileImage: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80',
+        description: 'Palace wedding pre-wedding portraiture, drone videography, and heritage album design.',
+      ),
+      VendorModel(
+        id: 23,
+        userId: 24,
+        businessName: 'Pink City Shutterbug Studio',
+        categoryId: 2,
+        categoryName: 'Photographers',
+        city: 'Jaipur',
+        address: 'Amer Fort Road, Jaipur',
+        startingPrice: 50000.0,
+        rating: 4.8,
+        totalReviews: 39,
+        status: 'approved',
+        profileImage: 'https://images.unsplash.com/photo-1537633552985-df8429e8048b?auto=format&fit=crop&w=800&q=80',
+        description: 'Traditional Marwari baraat coverage, candid photography, and 4K wedding highlight trailers.',
+      ),
+      VendorModel(
+        id: 24,
+        userId: 25,
+        businessName: 'Sunset Ocean Lens Goa',
+        categoryId: 2,
+        categoryName: 'Photographers',
+        city: 'Goa',
+        address: 'Calangute, North Goa',
+        startingPrice: 55000.0,
+        rating: 4.9,
+        totalReviews: 51,
+        status: 'approved',
+        profileImage: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80',
+        description: 'Beachfront sunset pre-wedding shoots, underwater couple portraits & destination wedding films.',
+      ),
+      VendorModel(
         id: 3,
         userId: 4,
         businessName: 'Imperial Feast Catering',
@@ -271,6 +359,66 @@ class VendorProvider with ChangeNotifier {
         description: 'HD & Airbrush bridal makeup specialist bringing out your timeless beauty on your special day.',
       ),
       VendorModel(
+        id: 26,
+        userId: 27,
+        businessName: 'Ambika Pillai Bridal Beauty',
+        categoryId: 4,
+        categoryName: 'Makeup Artists',
+        city: 'Delhi',
+        address: 'South Extension, New Delhi',
+        startingPrice: 35000.0,
+        rating: 5.0,
+        totalReviews: 83,
+        status: 'approved',
+        profileImage: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=800&q=80',
+        description: 'Luxury HD airbrush bridal makeup, hair styling & saree draping for royal weddings.',
+      ),
+      VendorModel(
+        id: 27,
+        userId: 28,
+        businessName: 'Royal Rajputi Glam by Parul',
+        categoryId: 4,
+        categoryName: 'Makeup Artists',
+        city: 'Jaipur',
+        address: 'C Scheme, Jaipur',
+        startingPrice: 28000.0,
+        rating: 4.9,
+        totalReviews: 47,
+        status: 'approved',
+        profileImage: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=800&q=80',
+        description: 'Specialist in traditional Rajasthani royal bridal looks, borla hair styling & long-lasting glam.',
+      ),
+      VendorModel(
+        id: 28,
+        userId: 29,
+        businessName: 'Lakecity Bridal Elegance',
+        categoryId: 4,
+        categoryName: 'Makeup Artists',
+        city: 'Udaipur',
+        address: 'Saheli Marg, Udaipur',
+        startingPrice: 30000.0,
+        rating: 4.8,
+        totalReviews: 35,
+        status: 'approved',
+        profileImage: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=800&q=80',
+        description: 'Destination wedding bridal packages, cocktail party looks & groom makeup touchups.',
+      ),
+      VendorModel(
+        id: 29,
+        userId: 30,
+        businessName: 'Oceana Waterproof Bridal Studio',
+        categoryId: 4,
+        categoryName: 'Makeup Artists',
+        city: 'Goa',
+        address: 'Panjim, Goa',
+        startingPrice: 32000.0,
+        rating: 4.9,
+        totalReviews: 40,
+        status: 'approved',
+        profileImage: 'https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?auto=format&fit=crop&w=800&q=80',
+        description: 'Waterproof beach wedding makeup, humid-proof hair setting & glowing tropical bride glam.',
+      ),
+      VendorModel(
         id: 5,
         userId: 6,
         businessName: 'Dream Flora Decorators',
@@ -284,6 +432,231 @@ class VendorProvider with ChangeNotifier {
         status: 'approved',
         profileImage: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=800&q=80',
         description: 'Exquisite theme styling, royal stage mandaps, and exotic floral arrangements.',
+      ),
+      VendorModel(
+        id: 6,
+        userId: 7,
+        businessName: 'Sabyasachi Bridal Couture',
+        categoryId: 6,
+        categoryName: 'Bridal Wear',
+        city: 'Mumbai',
+        address: 'Kala Ghoda, Fort, Mumbai',
+        startingPrice: 180000.0,
+        rating: 5.0,
+        totalReviews: 88,
+        status: 'approved',
+        profileImage: 'https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=800&q=80',
+        description: 'Iconic designer bridal lehengas, heritage silk sarees, and bespoke bridal couture.',
+      ),
+      VendorModel(
+        id: 7,
+        userId: 8,
+        businessName: 'Manish Malhotra Royal Groom',
+        categoryId: 7,
+        categoryName: 'Groom Wear',
+        city: 'Delhi',
+        address: 'Mehrauli, New Delhi',
+        startingPrice: 95000.0,
+        rating: 4.9,
+        totalReviews: 64,
+        status: 'approved',
+        profileImage: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800&q=80',
+        description: 'Handcrafted royal sherwanis, embroidered bandhgala suits, tuxedos & stole accessories.',
+      ),
+      VendorModel(
+        id: 8,
+        userId: 9,
+        businessName: 'Beats & Bass Live DJ Ensemble',
+        categoryId: 8,
+        categoryName: 'DJs & Music',
+        city: 'Goa',
+        address: 'Baga Road, North Goa',
+        startingPrice: 35000.0,
+        rating: 4.8,
+        totalReviews: 45,
+        status: 'approved',
+        profileImage: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=800&q=80',
+        description: 'High-energy wedding DJ, live brass bands, LED percussionists & intelligent lighting setups.',
+      ),
+      VendorModel(
+        id: 9,
+        userId: 10,
+        businessName: 'Veena Nagda Bridal Mehndi',
+        categoryId: 9,
+        categoryName: 'Mehndi Artists',
+        city: 'Mumbai',
+        address: 'Juhu Scheme, Mumbai',
+        startingPrice: 15000.0,
+        rating: 4.9,
+        totalReviews: 76,
+        status: 'approved',
+        profileImage: 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=80',
+        description: 'Celebrity bridal henna artist specializing in intricate Marwari, Arabic & portrait Mehndi designs.',
+      ),
+      VendorModel(
+        id: 10,
+        userId: 11,
+        businessName: 'Vogue Weddings & Events',
+        categoryId: 10,
+        categoryName: 'Wedding Planners',
+        city: 'Udaipur',
+        address: 'Fatehpura Main Road, Udaipur',
+        startingPrice: 200000.0,
+        rating: 4.9,
+        totalReviews: 58,
+        status: 'approved',
+        profileImage: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
+        description: 'Turnkey luxury wedding planning, destination management, guest logistics & royal decor concept designs.',
+      ),
+      VendorModel(
+        id: 11,
+        userId: 12,
+        businessName: 'Royal Crafts Wedding Cards & E-Invites',
+        categoryId: 11,
+        categoryName: 'Invitations & Cards',
+        city: 'Jaipur',
+        address: 'Johari Bazaar, Jaipur',
+        startingPrice: 12000.0,
+        rating: 4.8,
+        totalReviews: 33,
+        status: 'approved',
+        profileImage: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80',
+        description: 'Bespoke boxed invitation suites, wax seal scrolls, 3D animated video invitations, and luxury stationery.',
+      ),
+      VendorModel(
+        id: 12,
+        userId: 13,
+        businessName: 'Tanishq Kundan & Polki Fine Jewelry',
+        categoryId: 12,
+        categoryName: 'Jewelry & Accessories',
+        city: 'Ahmedabad',
+        address: 'CG Road, Ahmedabad',
+        startingPrice: 150000.0,
+        rating: 4.9,
+        totalReviews: 92,
+        status: 'approved',
+        profileImage: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=800&q=80',
+        description: 'Certified uncut diamond polki chokers, temple gold jewelry sets, maang tikka, and bridal matha patti.',
+      ),
+      VendorModel(
+        id: 13,
+        userId: 14,
+        businessName: 'Pandit Ramcharan Shastri & Vedic Ensemble',
+        categoryId: 13,
+        categoryName: 'Pandits & Priests',
+        city: 'Varanasi',
+        address: 'Dashashwamedh Ghat Road, Varanasi',
+        startingPrice: 11000.0,
+        rating: 5.0,
+        totalReviews: 67,
+        status: 'approved',
+        profileImage: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80',
+        description: 'Experienced Vedic scholars performing authentic Marwari, Gujarati, Punjabi & South Indian wedding rituals with live chanting.',
+      ),
+      VendorModel(
+        id: 14,
+        userId: 15,
+        businessName: 'Bollywood Steps Sangeet Choreography',
+        categoryId: 14,
+        categoryName: 'Choreographers',
+        city: 'Mumbai',
+        address: 'Andheri West, Mumbai',
+        startingPrice: 30000.0,
+        rating: 4.8,
+        totalReviews: 49,
+        status: 'approved',
+        profileImage: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=800&q=80',
+        description: 'Sangeet night concept choreography, couple entry dance routines, and flashmob rehearsals for wedding families.',
+      ),
+      VendorModel(
+        id: 15,
+        userId: 16,
+        businessName: 'The Royal Bakery & Gourmet Mithai',
+        categoryId: 15,
+        categoryName: 'Cakes & Sweets',
+        city: 'Delhi',
+        address: 'Khan Market, New Delhi',
+        startingPrice: 8000.0,
+        rating: 4.9,
+        totalReviews: 54,
+        status: 'approved',
+        profileImage: 'https://images.unsplash.com/photo-1535141192574-5d4897c13136?auto=format&fit=crop&w=800&q=80',
+        description: 'Multi-tiered floral fondant wedding cakes, artisanal macaron towers, and handcrafted silver foil dry fruit mithai hampers.',
+      ),
+      VendorModel(
+        id: 16,
+        userId: 17,
+        businessName: 'Cocktail Craft Bar & Flaring Legends',
+        categoryId: 16,
+        categoryName: 'Bar & Mixologists',
+        city: 'Goa',
+        address: 'Panaji Riverfront, Goa',
+        startingPrice: 40000.0,
+        rating: 4.9,
+        totalReviews: 42,
+        status: 'approved',
+        profileImage: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=800&q=80',
+        description: 'International flair bartenders, molecular cocktail counters, personalized smoke infusion bars, and luxury wine cellars.',
+      ),
+      VendorModel(
+        id: 17,
+        userId: 18,
+        businessName: 'Vintage Wheels Baraat Car Rentals',
+        categoryId: 17,
+        categoryName: 'Vintage Cars',
+        city: 'Udaipur',
+        address: 'City Palace Road, Udaipur',
+        startingPrice: 25000.0,
+        rating: 4.8,
+        totalReviews: 38,
+        status: 'approved',
+        profileImage: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80',
+        description: 'Restored 1930s Rolls Royce, vintage convertibles, open-top royal carriages, and luxury Mercedes buses for wedding guests.',
+      ),
+      VendorModel(
+        id: 18,
+        userId: 19,
+        businessName: 'Aura Luxury Return Gifts & Hampers',
+        categoryId: 18,
+        categoryName: 'Gifts & Favors',
+        city: 'Surat',
+        address: 'Ghod Dod Road, Surat',
+        startingPrice: 15000.0,
+        rating: 4.8,
+        totalReviews: 31,
+        status: 'approved',
+        profileImage: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=800&q=80',
+        description: 'Silver plated puja thalis, scented soy candle hampers, gourmet dry fruit boxes, and customized guest welcome kits.',
+      ),
+      VendorModel(
+        id: 19,
+        userId: 20,
+        businessName: 'Escapes Luxury Honeymoon & Island Tours',
+        categoryId: 19,
+        categoryName: 'Honeymoon Tours',
+        city: 'Mumbai',
+        address: 'Nariman Point, Mumbai',
+        startingPrice: 120000.0,
+        rating: 4.9,
+        totalReviews: 61,
+        status: 'approved',
+        profileImage: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80',
+        description: 'Tailor-made overwater villa itineraries in Maldives, Swiss Alps chalets, Bali infinity pool villas & romantic cruises.',
+      ),
+      VendorModel(
+        id: 20,
+        userId: 21,
+        businessName: 'Manganiyar Folk Troupe & Shehnai Masters',
+        categoryId: 20,
+        categoryName: 'Entertainment',
+        city: 'Jaipur',
+        address: 'Amer Road, Jaipur',
+        startingPrice: 45000.0,
+        rating: 5.0,
+        totalReviews: 55,
+        status: 'approved',
+        profileImage: 'https://images.unsplash.com/photo-1465847899084-d164df4dedc6?auto=format&fit=crop&w=800&q=80',
+        description: 'Authentic Rajasthani Ghoomar dancers, Kutchi Garba ensembles, Punjabi Dhol troupes, and Shehnai welcoming masters.',
       ),
     ];
   }
@@ -309,132 +682,6 @@ class VendorProvider with ChangeNotifier {
         ],
       ),
       DestinationModel(
-        id: 2,
-        title: 'Jaipur Pink City Heritage',
-        location: 'Jaipur, Rajasthan',
-        description: 'The Pink City Royal Heritage with fort venues and grand elephant welcome.',
-        imageUrl: 'https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=800&q=80',
-        startingPrice: 2000000.0,
-        isPopular: true,
-        packages: [
-          DestinationPackage(
-            id: 2,
-            packageName: 'Fort Heritage Royal Package',
-            price: 2000000.0,
-            duration: '3 Days / 2 Nights',
-            inclusions: ['Fort Mandap Rental', 'Traditional Shehnai Welcome', 'Royal Buffet Catering', 'Decor & Lighting'],
-          )
-        ],
-      ),
-      DestinationModel(
-        id: 3,
-        title: 'Goa Sunset Beach Wedding',
-        location: 'Goa Beachfront',
-        description: 'Beachfront Sunset Weddings with ocean view mandap and beach party.',
-        imageUrl: 'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=800&q=80',
-        startingPrice: 1800000.0,
-        isPopular: true,
-        packages: [
-          DestinationPackage(
-            id: 3,
-            packageName: 'Sunset Beachfront Package',
-            price: 1800000.0,
-            duration: '2 Days / 2 Nights',
-            inclusions: ['Beach Altar & Floral Mandap', 'Seafood & Cocktail Bar', 'Live Acoustic Band', 'Beach DJ Night'],
-          )
-        ],
-      ),
-      DestinationModel(
-        id: 4,
-        title: 'Kerala Backwater Houseboat',
-        location: 'Alleppey, Kerala',
-        description: 'Serene backwater weddings with houseboat processions & traditional Sadya feast.',
-        imageUrl: 'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=80',
-        startingPrice: 1600000.0,
-        isPopular: true,
-        packages: [
-          DestinationPackage(
-            id: 4,
-            packageName: 'Backwater Luxury Houseboat Experience',
-            price: 1600000.0,
-            duration: '3 Days / 2 Nights',
-            inclusions: ['Luxury Houseboat Bride Entry', 'Lakeside Floral Mandap', 'Traditional Kerala Sadya Feast', 'Kathakali & Chenda Melam Performance'],
-          )
-        ],
-      ),
-      DestinationModel(
-        id: 5,
-        title: 'Mussoorie Cloud Misty Hills',
-        location: 'Mussoorie, Uttarakhand',
-        description: 'Romantic hill station wedding surrounded by pine valleys and Himalayan sunsets.',
-        imageUrl: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80',
-        startingPrice: 1900000.0,
-        isPopular: true,
-        packages: [
-          DestinationPackage(
-            id: 5,
-            packageName: 'Himalayan Ridge Royal Wedding',
-            price: 1900000.0,
-            duration: '3 Days / 2 Nights',
-            inclusions: ['Pine Ridge Valley Outdoor Mandap', 'Cozy Bonfire & Acoustic Night', 'Himalayan Gourmet Buffet', 'Luxury Mountain Resort Stay for 150 Guests'],
-          )
-        ],
-      ),
-      DestinationModel(
-        id: 6,
-        title: 'Jodhpur Mehrangarh Fort',
-        location: 'Jodhpur, Rajasthan',
-        description: 'Grand fort celebration with royal cannons, desert dune pre-wedding gala, and illuminations.',
-        imageUrl: 'https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?auto=format&fit=crop&w=800&q=80',
-        startingPrice: 2800000.0,
-        isPopular: true,
-        packages: [
-          DestinationPackage(
-            id: 6,
-            packageName: 'Mehrangarh Fort & Royal Courtyard',
-            price: 2800000.0,
-            duration: '3 Days / 2 Nights',
-            inclusions: ['Fort Rampart Fireworks & Illumination', 'Royal Marwari Feast Catering', 'Desert Safari Sangeet Party', 'Vintage Car Groom Procession'],
-          )
-        ],
-      ),
-      DestinationModel(
-        id: 7,
-        title: 'Andaman Crystal Beach Paradise',
-        location: 'Havelock Island, Andaman',
-        description: 'Exotic island weddings featuring turquoise waters, coral beach ceremonies, and beach BBQ.',
-        imageUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80',
-        startingPrice: 2200000.0,
-        isPopular: true,
-        packages: [
-          DestinationPackage(
-            id: 7,
-            packageName: 'Exotic Island Coral Paradise',
-            price: 2200000.0,
-            duration: '3 Days / 2 Nights',
-            inclusions: ['Private Coral Beach Mandap', 'Seafood & Tropical Barbecue', 'Speedboat Guest Transfers', 'Scuba Pre-Wedding Photography Session'],
-          )
-        ],
-      ),
-      DestinationModel(
-        id: 8,
-        title: 'Rishikesh Holy Ganges Retreat',
-        location: 'Rishikesh, Uttarakhand',
-        description: 'Spiritual and serene riverside wedding with traditional Vedic chants and Ganga Aarti ceremony.',
-        imageUrl: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80',
-        startingPrice: 1500000.0,
-        isPopular: false,
-        packages: [
-          DestinationPackage(
-            id: 8,
-            packageName: 'Vedic Riverside Ganga Blessing',
-            price: 1500000.0,
-            duration: '2 Days / 2 Nights',
-            inclusions: ['Ganga Ghat Floral Mandap', 'Vedic Priest & Live Shehnai Ensemble', 'Pure Sattvik Organic Feast', 'Evening Ganga Aarti Celebration'],
-          )
-        ],
-      ),
-      DestinationModel(
         id: 9,
         title: 'Statue of Unity Tent City',
         location: 'Kevadia, Gujarat',
@@ -449,6 +696,24 @@ class VendorProvider with ChangeNotifier {
             price: 1700000.0,
             duration: '3 Days / 2 Nights',
             inclusions: ['Grand Narmada Riverfront Mandap', 'Luxury AC Tent Stay for 150 Guests', 'Authentic Gujarati Thali & Global Buffet', 'Laser Light Show & Sangeet Setup'],
+          )
+        ],
+      ),
+      DestinationModel(
+        id: 2,
+        title: 'Jaipur Pink City Heritage',
+        location: 'Jaipur, Rajasthan',
+        description: 'The Pink City Royal Heritage with fort venues and grand elephant welcome.',
+        imageUrl: 'https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=800&q=80',
+        startingPrice: 2000000.0,
+        isPopular: true,
+        packages: [
+          DestinationPackage(
+            id: 2,
+            packageName: 'Fort Heritage Royal Package',
+            price: 2000000.0,
+            duration: '3 Days / 2 Nights',
+            inclusions: ['Fort Mandap Rental', 'Traditional Shehnai Welcome', 'Royal Buffet Catering', 'Decor & Lighting'],
           )
         ],
       ),
@@ -471,38 +736,20 @@ class VendorProvider with ChangeNotifier {
         ],
       ),
       DestinationModel(
-        id: 11,
-        title: 'Gir Forest Eco Resort',
-        location: 'Sasan Gir, Gujarat',
-        description: 'Royal wilderness wedding surrounded by lush teak forests & luxury jungle safari lodges.',
-        imageUrl: 'https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&w=800&q=80',
-        startingPrice: 1650000.0,
+        id: 3,
+        title: 'Goa Sunset Beach Wedding',
+        location: 'Goa Beachfront',
+        description: 'Beachfront Sunset Weddings with ocean view mandap and beach party.',
+        imageUrl: 'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=800&q=80',
+        startingPrice: 1800000.0,
         isPopular: true,
         packages: [
           DestinationPackage(
-            id: 11,
-            packageName: 'Gir Lion Wilderness Eco Package',
-            price: 1650000.0,
-            duration: '3 Days / 2 Nights',
-            inclusions: ['Jungle Canopy Floral Mandap', 'Open-Air Campfire Acoustic Night', 'Organic Kathiyawadi & Continental Feast', 'Safari Tour for Wedding Guests'],
-          )
-        ],
-      ),
-      DestinationModel(
-        id: 12,
-        title: 'Dwarka Ocean Temple & Beach',
-        location: 'Dwarka, Gujarat',
-        description: 'Sacred coastal temple blessing ceremony with Arabian Sea sunset mandap and seaside banquet.',
-        imageUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80',
-        startingPrice: 1400000.0,
-        isPopular: false,
-        packages: [
-          DestinationPackage(
-            id: 12,
-            packageName: 'Dwarka Coastal Holy Vows Package',
-            price: 1400000.0,
+            id: 3,
+            packageName: 'Sunset Beachfront Package',
+            price: 1800000.0,
             duration: '2 Days / 2 Nights',
-            inclusions: ['Seaside Temple Altar Setup', 'Traditional Shehnai & Vedic Chants', 'Pure Jain & Pure Veg Feast', 'Sunset Beach Reception'],
+            inclusions: ['Beach Altar & Floral Mandap', 'Seafood & Cocktail Bar', 'Live Acoustic Band', 'Beach DJ Night'],
           )
         ],
       ),
@@ -525,6 +772,60 @@ class VendorProvider with ChangeNotifier {
         ],
       ),
       DestinationModel(
+        id: 4,
+        title: 'Kerala Backwater Houseboat',
+        location: 'Alleppey, Kerala',
+        description: 'Serene backwater weddings with houseboat processions & traditional Sadya feast.',
+        imageUrl: 'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=80',
+        startingPrice: 1600000.0,
+        isPopular: true,
+        packages: [
+          DestinationPackage(
+            id: 4,
+            packageName: 'Backwater Luxury Houseboat Experience',
+            price: 1600000.0,
+            duration: '3 Days / 2 Nights',
+            inclusions: ['Luxury Houseboat Bride Entry', 'Lakeside Floral Mandap', 'Traditional Kerala Sadya Feast', 'Kathakali & Chenda Melam Performance'],
+          )
+        ],
+      ),
+      DestinationModel(
+        id: 11,
+        title: 'Gir Forest Eco Resort',
+        location: 'Sasan Gir, Gujarat',
+        description: 'Royal wilderness wedding surrounded by lush teak forests & luxury jungle safari lodges.',
+        imageUrl: 'https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&w=800&q=80',
+        startingPrice: 1650000.0,
+        isPopular: true,
+        packages: [
+          DestinationPackage(
+            id: 11,
+            packageName: 'Gir Lion Wilderness Eco Package',
+            price: 1650000.0,
+            duration: '3 Days / 2 Nights',
+            inclusions: ['Jungle Canopy Floral Mandap', 'Open-Air Campfire Acoustic Night', 'Organic Kathiyawadi & Continental Feast', 'Safari Tour for Wedding Guests'],
+          )
+        ],
+      ),
+      DestinationModel(
+        id: 5,
+        title: 'Mussoorie Cloud Misty Hills',
+        location: 'Mussoorie, Uttarakhand',
+        description: 'Romantic hill station wedding surrounded by pine valleys and Himalayan sunsets.',
+        imageUrl: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80',
+        startingPrice: 1900000.0,
+        isPopular: true,
+        packages: [
+          DestinationPackage(
+            id: 5,
+            packageName: 'Himalayan Ridge Royal Wedding',
+            price: 1900000.0,
+            duration: '3 Days / 2 Nights',
+            inclusions: ['Pine Ridge Valley Outdoor Mandap', 'Cozy Bonfire & Acoustic Night', 'Himalayan Gourmet Buffet', 'Luxury Mountain Resort Stay for 150 Guests'],
+          )
+        ],
+      ),
+      DestinationModel(
         id: 14,
         title: 'Surat Tapi Riverfront Resort',
         location: 'Surat, Gujarat',
@@ -543,13 +844,67 @@ class VendorProvider with ChangeNotifier {
         ],
       ),
       DestinationModel(
+        id: 6,
+        title: 'Jodhpur Mehrangarh Fort',
+        location: 'Jodhpur, Rajasthan',
+        description: 'Grand fort celebration with royal cannons, desert dune pre-wedding gala, and illuminations.',
+        imageUrl: 'https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?auto=format&fit=crop&w=800&q=80',
+        startingPrice: 2800000.0,
+        isPopular: true,
+        packages: [
+          DestinationPackage(
+            id: 6,
+            packageName: 'Mehrangarh Fort & Royal Courtyard',
+            price: 2800000.0,
+            duration: '3 Days / 2 Nights',
+            inclusions: ['Fort Rampart Fireworks & Illumination', 'Royal Marwari Feast Catering', 'Desert Safari Sangeet Party', 'Vintage Car Groom Procession'],
+          )
+        ],
+      ),
+      DestinationModel(
+        id: 12,
+        title: 'Dwarka Ocean Temple & Beach',
+        location: 'Dwarka, Gujarat',
+        description: 'Sacred coastal temple blessing ceremony with Arabian Sea sunset mandap and seaside banquet.',
+        imageUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80',
+        startingPrice: 1400000.0,
+        isPopular: true,
+        packages: [
+          DestinationPackage(
+            id: 12,
+            packageName: 'Dwarka Coastal Holy Vows Package',
+            price: 1400000.0,
+            duration: '2 Days / 2 Nights',
+            inclusions: ['Seaside Temple Altar Setup', 'Traditional Shehnai & Vedic Chants', 'Pure Jain & Pure Veg Feast', 'Sunset Beach Reception'],
+          )
+        ],
+      ),
+      DestinationModel(
+        id: 7,
+        title: 'Andaman Crystal Beach Paradise',
+        location: 'Havelock Island, Andaman',
+        description: 'Exotic island weddings featuring turquoise waters, coral beach ceremonies, and beach BBQ.',
+        imageUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80',
+        startingPrice: 2200000.0,
+        isPopular: true,
+        packages: [
+          DestinationPackage(
+            id: 7,
+            packageName: 'Exotic Island Coral Paradise',
+            price: 2200000.0,
+            duration: '3 Days / 2 Nights',
+            inclusions: ['Private Coral Beach Mandap', 'Seafood & Tropical Barbecue', 'Speedboat Guest Transfers', 'Scuba Pre-Wedding Photography Session'],
+          )
+        ],
+      ),
+      DestinationModel(
         id: 15,
         title: 'Diu Island Portuguese Coast',
         location: 'Diu Coast, Gujarat',
         description: 'Colonial Portuguese fort ruins & quiet sandy beach mandap with European coastal charm.',
         imageUrl: 'https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?auto=format&fit=crop&w=800&q=80',
         startingPrice: 1750000.0,
-        isPopular: false,
+        isPopular: true,
         packages: [
           DestinationPackage(
             id: 15,
@@ -557,6 +912,24 @@ class VendorProvider with ChangeNotifier {
             price: 1750000.0,
             duration: '2 Days / 2 Nights',
             inclusions: ['Cliffside Sea View Mandap', 'Beachside Sunset Bar & Grill', 'Live Jazz & Portuguese Music', 'Vintage Car Bride Entry'],
+          )
+        ],
+      ),
+      DestinationModel(
+        id: 8,
+        title: 'Rishikesh Holy Ganges Retreat',
+        location: 'Rishikesh, Uttarakhand',
+        description: 'Spiritual and serene riverside wedding with traditional Vedic chants and Ganga Aarti ceremony.',
+        imageUrl: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80',
+        startingPrice: 1500000.0,
+        isPopular: false,
+        packages: [
+          DestinationPackage(
+            id: 8,
+            packageName: 'Vedic Riverside Ganga Blessing',
+            price: 1500000.0,
+            duration: '2 Days / 2 Nights',
+            inclusions: ['Ganga Ghat Floral Mandap', 'Vedic Priest & Live Shehnai Ensemble', 'Pure Sattvik Organic Feast', 'Evening Ganga Aarti Celebration'],
           )
         ],
       ),

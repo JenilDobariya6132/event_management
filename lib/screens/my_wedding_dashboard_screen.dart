@@ -9,6 +9,7 @@ import '../providers/wedding_provider.dart';
 import 'wedding_budget_screen.dart';
 import 'wedding_checklist_screen.dart';
 import 'guest_management_screen.dart';
+import 'wedding_booking_dashboard_screen.dart';
 
 class MyWeddingDashboardScreen extends StatefulWidget {
   const MyWeddingDashboardScreen({super.key});
@@ -177,6 +178,20 @@ class _MyWeddingDashboardScreenState extends State<MyWeddingDashboardScreen> {
                     style: GoogleFonts.playfairDisplay(fontSize: 20, fontWeight: FontWeight.bold, color: AppTheme.primary),
                   ),
                   const SizedBox(height: 14),
+
+                  // Tool 0: All Bookings Dashboard Tile
+                  _buildToolCard(
+                    context: context,
+                    icon: Icons.collections_bookmark_outlined,
+                    title: "Wedding Booking Dashboard",
+                    subtitle: "View summary, vouchers, payments & statuses of all booked venues & services",
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => const WeddingBookingDashboardScreen()),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 12),
 
                   // Tool 1: Budget Manager Tile
                   _buildToolCard(

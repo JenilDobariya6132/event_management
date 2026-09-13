@@ -1,4 +1,40 @@
-// lib/models/destination_model.dart
+import 'package:flutter/material.dart';
+
+class EventSpace {
+  final String name;
+  final String description;
+  final String capacity;
+  final IconData icon;
+
+  EventSpace({
+    required this.name,
+    required this.description,
+    required this.capacity,
+    required this.icon,
+  });
+
+  factory EventSpace.fromJson(Map<String, dynamic> json) {
+    return EventSpace(
+      name: json['name'] ?? json['title'] ?? '',
+      description: json['description'] ?? json['desc'] ?? '',
+      capacity: json['capacity'] ?? '200 - 500 Guests',
+      icon: _parseIcon(json['icon'] ?? json['icon_name']),
+    );
+  }
+
+  static IconData _parseIcon(dynamic iconVal) {
+    if (iconVal is IconData) return iconVal;
+    final str = iconVal?.toString().toLowerCase() ?? '';
+    if (str.contains('pool') || str.contains('swimming')) return Icons.pool;
+    if (str.contains('deck') || str.contains('patio')) return Icons.deck;
+    if (str.contains('castle') || str.contains('fort') || str.contains('palace')) return Icons.castle;
+    if (str.contains('park') || str.contains('lawn') || str.contains('garden')) return Icons.park;
+    if (str.contains('beach') || str.contains('sea') || str.contains('ocean')) return Icons.beach_access;
+    if (str.contains('mountain') || str.contains('landscape') || str.contains('hill')) return Icons.landscape;
+    if (str.contains('water') || str.contains('river') || str.contains('lake')) return Icons.water;
+    return Icons.meeting_room;
+  }
+}
 
 class DestinationPackage {
   final int id;
@@ -41,6 +77,7 @@ class DestinationVenue {
   final List<String>? galleryImages;
   final String description;
   final List<String> amenities;
+  final List<EventSpace>? eventSpaces;
 
   DestinationVenue({
     required this.id,
@@ -54,6 +91,7 @@ class DestinationVenue {
     this.galleryImages,
     required this.description,
     required this.amenities,
+    this.eventSpaces,
   });
 
   factory DestinationVenue.fromJson(Map<String, dynamic> json) {
@@ -69,6 +107,9 @@ class DestinationVenue {
       galleryImages: json['gallery_images'] != null ? List<String>.from(json['gallery_images']) : null,
       description: json['description'] ?? '',
       amenities: json['amenities'] != null ? List<String>.from(json['amenities']) : [],
+      eventSpaces: json['event_spaces'] != null && json['event_spaces'] is List
+          ? (json['event_spaces'] as List).map((e) => EventSpace.fromJson(e)).toList()
+          : null,
     );
   }
 
@@ -83,6 +124,240 @@ class DestinationVenue {
       'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=1000',
       'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=1000',
     ];
+  }
+
+  List<EventSpace> getEventSpaces() {
+    if (eventSpaces != null && eventSpaces!.isNotEmpty) {
+      return eventSpaces!;
+    }
+
+    final String nameLower = name.toLowerCase();
+    final String categoryLower = category.toLowerCase();
+    final String locationLower = location.toLowerCase();
+
+    // Deterministic hash based on venue.id and venue.name length to create varied capacities and space names
+    final int hash = (id * 31 + name.length * 17) % 997;
+
+    // Clean up short name for building natural titles (e.g. "Taj Lake", "Umaid Bhawan", "Narmada Tent")
+    final String venueShortName = name
+        .replaceAll(RegExp(r'^(The|A)\s+', caseSensitive: false), '')
+        .split(' ')
+        .take(2)
+        .join(' ');
+
+    List<EventSpace> list = [];
+
+    // 1. Royal Palace / Fort / Heritage Venue
+    if (categoryLower.contains('palace') ||
+        categoryLower.contains('fort') ||
+        categoryLower.contains('heritage') ||
+        nameLower.contains('palace') ||
+        nameLower.contains('fort') ||
+        nameLower.contains('haveli') ||
+        nameLower.contains('garh') ||
+        nameLower.contains('mahal')) {
+      final cap1Min = 500 + (hash % 6) * 50;
+      final cap1Max = cap1Min + 450 + (hash % 5) * 100;
+      final cap2Min = 300 + (hash % 4) * 50;
+      final cap2Max = cap2Min + 250 + (hash % 4) * 80;
+      final cap3Min = 200 + (hash % 3) * 50;
+      final cap3Max = cap3Min + 200 + (hash % 3) * 50;
+      final cap4Min = 150 + (hash % 3) * 30;
+      final cap4Max = cap4Min + 120 + (hash % 4) * 40;
+
+      list = [
+        EventSpace(
+          name: "$venueShortName Royal Mandap Lawn",
+          description: "Outdoor Marwari Floral Mandap, Elephant Welcome & Baraat Stage",
+          capacity: "$cap1Min - $cap1Max Guests",
+          icon: Icons.castle,
+        ),
+        EventSpace(
+          name: "Grand Imperial Chandelier Ballroom",
+          description: "Indoor Air-Conditioned Royal Heritage Banquet",
+          capacity: "$cap2Min - $cap2Max Guests",
+          icon: Icons.meeting_room,
+        ),
+        EventSpace(
+          name: "Rooftop Fort Rampart Terrace",
+          description: "Sunset Cocktail Lounge, Folk Dance & Sangeet Stage",
+          capacity: "$cap3Min - $cap3Max Guests",
+          icon: Icons.deck,
+        ),
+        EventSpace(
+          name: "Lotus Palace Courtyard",
+          description: "Traditional Haldi, Mehendi & Intimate Pre-wedding Rituals",
+          capacity: "$cap4Min - $cap4Max Guests",
+          icon: Icons.pool,
+        ),
+      ];
+    }
+    // 2. Beach / Coastal / Ocean Resort
+    else if (categoryLower.contains('beach') ||
+        categoryLower.contains('ocean') ||
+        categoryLower.contains('coastal') ||
+        nameLower.contains('beach') ||
+        nameLower.contains('ocean') ||
+        nameLower.contains('sea') ||
+        nameLower.contains('bay') ||
+        nameLower.contains('cove') ||
+        nameLower.contains('lagoon') ||
+        locationLower.contains('goa') ||
+        locationLower.contains('kovalam') ||
+        locationLower.contains('kerala') ||
+        locationLower.contains('andaman') ||
+        locationLower.contains('pondicherry')) {
+      final cap1Min = 400 + (hash % 5) * 50;
+      final cap1Max = cap1Min + 400 + (hash % 6) * 90;
+      final cap2Min = 250 + (hash % 4) * 50;
+      final cap2Max = cap2Min + 250 + (hash % 4) * 80;
+      final cap3Min = 180 + (hash % 3) * 40;
+      final cap3Max = cap3Min + 200 + (hash % 4) * 50;
+      final cap4Min = 100 + (hash % 4) * 25;
+      final cap4Max = cap4Min + 140 + (hash % 3) * 35;
+
+      list = [
+        EventSpace(
+          name: "$venueShortName Sunset Ocean Lawn",
+          description: "Beachside Sand Mandap & Sunset Vows Exchange",
+          capacity: "$cap1Min - $cap1Max Guests",
+          icon: Icons.beach_access,
+        ),
+        EventSpace(
+          name: "Grand Coastal Palms Ballroom",
+          description: "Indoor AC Sea-view Banquet & Reception Hall",
+          capacity: "$cap2Min - $cap2Max Guests",
+          icon: Icons.meeting_room,
+        ),
+        EventSpace(
+          name: "Poolside Sundowner Deck",
+          description: "Tropical Cocktail, DJ Sangeet & Beach Sundowner",
+          capacity: "$cap3Min - $cap3Max Guests",
+          icon: Icons.pool,
+        ),
+        EventSpace(
+          name: "Private Lagoon Garden Cove",
+          description: "Haldi & Mehendi Sundowner Rituals by the Water",
+          capacity: "$cap4Min - $cap4Max Guests",
+          icon: Icons.water,
+        ),
+      ];
+    }
+    // 3. Hill Station / Mountain / Valley Resort
+    else if (categoryLower.contains('hill') ||
+        categoryLower.contains('mountain') ||
+        categoryLower.contains('valley') ||
+        categoryLower.contains('eco') ||
+        nameLower.contains('hill') ||
+        nameLower.contains('ridge') ||
+        nameLower.contains('valley') ||
+        nameLower.contains('pine') ||
+        nameLower.contains('alpine') ||
+        locationLower.contains('shimla') ||
+        locationLower.contains('manali') ||
+        locationLower.contains('mussoorie') ||
+        locationLower.contains('nainital') ||
+        locationLower.contains('coorg') ||
+        locationLower.contains('munnar')) {
+      final cap1Min = 300 + (hash % 4) * 50;
+      final cap1Max = cap1Min + 300 + (hash % 5) * 80;
+      final cap2Min = 200 + (hash % 4) * 40;
+      final cap2Max = cap2Min + 220 + (hash % 4) * 70;
+      final cap3Min = 120 + (hash % 3) * 30;
+      final cap3Max = cap3Min + 160 + (hash % 3) * 40;
+
+      list = [
+        EventSpace(
+          name: "$venueShortName Panoramic Ridge Meadow",
+          description: "Open Mountain Peak Mandap & Valley View Ceremony",
+          capacity: "$cap1Min - $cap1Max Guests",
+          icon: Icons.landscape,
+        ),
+        EventSpace(
+          name: "Pine Wood Glasshouse Pavilion",
+          description: "Heated Indoor Glasshouse Banquet & Stage",
+          capacity: "$cap2Min - $cap2Max Guests",
+          icon: Icons.domain,
+        ),
+        EventSpace(
+          name: "Sunset Bonfire Deck",
+          description: "Acoustic Sangeet Night, High Tea & Bonfire Gala",
+          capacity: "$cap3Min - $cap3Max Guests",
+          icon: Icons.deck,
+        ),
+      ];
+    }
+    // 4. Desert / Tent City / Kutch / Jaisalmer Resort
+    else if (categoryLower.contains('tent') ||
+        categoryLower.contains('desert') ||
+        nameLower.contains('tent') ||
+        nameLower.contains('rann') ||
+        nameLower.contains('desert') ||
+        nameLower.contains('dunes') ||
+        locationLower.contains('kutch') ||
+        locationLower.contains('jaisalmer') ||
+        locationLower.contains('kevadia') ||
+        locationLower.contains('bikaner')) {
+      final cap1Min = 450 + (hash % 5) * 50;
+      final cap1Max = cap1Min + 400 + (hash % 6) * 90;
+      final cap2Min = 280 + (hash % 4) * 40;
+      final cap2Max = cap2Min + 270 + (hash % 4) * 70;
+      final cap3Min = 160 + (hash % 3) * 30;
+      final cap3Max = cap3Min + 190 + (hash % 4) * 40;
+
+      list = [
+        EventSpace(
+          name: "$venueShortName Moonlit Desert Arena",
+          description: "Open Sky Desert Mandap with Camel Carriage Entrance",
+          capacity: "$cap1Min - $cap1Max Guests",
+          icon: Icons.park,
+        ),
+        EventSpace(
+          name: "Royal Marwari Tent Pavilion",
+          description: "Luxury Tented Air-Conditioned Banquet & Dining Hall",
+          capacity: "$cap2Min - $cap2Max Guests",
+          icon: Icons.meeting_room,
+        ),
+        EventSpace(
+          name: "Dune View Folk Sangeet Stage",
+          description: "Cultural Folk Dance, Garba Night & Firework Gala",
+          capacity: "$cap3Min - $cap3Max Guests",
+          icon: Icons.deck,
+        ),
+      ];
+    }
+    // 5. General Luxury Hotel / Banquet / Resort
+    else {
+      final cap1Min = 400 + (hash % 6) * 50;
+      final cap1Max = cap1Min + 450 + (hash % 5) * 90;
+      final cap2Min = 250 + (hash % 4) * 50;
+      final cap2Max = cap2Min + 270 + (hash % 4) * 80;
+      final cap3Min = 150 + (hash % 3) * 30;
+      final cap3Max = cap3Min + 180 + (hash % 4) * 50;
+
+      list = [
+        EventSpace(
+          name: "$venueShortName Grand Emerald Lawn",
+          description: "Sprawling Floral Mandap & Open Sky Wedding Reception",
+          capacity: "$cap1Min - $cap1Max Guests",
+          icon: Icons.deck,
+        ),
+        EventSpace(
+          name: "Pillarless Crystal Ballroom",
+          description: "Indoor Air-Conditioned Luxury Banquet & HD Stage",
+          capacity: "$cap2Min - $cap2Max Guests",
+          icon: Icons.meeting_room,
+        ),
+        EventSpace(
+          name: "Poolside Sangeet & Cocktail Terrace",
+          description: "Sunset Cocktail Party, DJ Sangeet & Sundowner",
+          capacity: "$cap3Min - $cap3Max Guests",
+          icon: Icons.pool,
+        ),
+      ];
+    }
+
+    return list;
   }
 }
 

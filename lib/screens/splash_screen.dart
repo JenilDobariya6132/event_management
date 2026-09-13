@@ -1,7 +1,9 @@
 // lib/screens/splash_screen.dart
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import '../config/theme.dart';
 import '../providers/auth_provider.dart';
 import 'onboarding_screen.dart';
 import 'main_navigation_screen.dart';
@@ -64,14 +66,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
         width: double.infinity,
         height: double.infinity,
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF4A1525), // Royal Burgundy
-              Color(0xFF2D0B16), // Dark Burgundy
-            ],
-          ),
+          gradient: AppTheme.primaryGradient,
         ),
         child: FadeTransition(
           opacity: _fadeAnimation,
@@ -85,18 +80,18 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: Colors.white.withValues(alpha: 0.1),
-                    border: Border.all(color: const Color(0xFFD4AF37), width: 2),
+                    border: Border.all(color: AppTheme.accentLight, width: 2),
                   ),
                   child: const Icon(
                     Icons.favorite,
                     size: 72,
-                    color: Color(0xFFD4AF37),
+                    color: AppTheme.accentLight,
                   ),
                 ),
                 const SizedBox(height: 24),
-                const Text(
+                Text(
                   "ROYAL WEDDINGS",
-                  style: TextStyle(
+                  style: GoogleFonts.playfairDisplay(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -104,11 +99,11 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                   ),
                 ),
                 const SizedBox(height: 8),
-                const Text(
+                Text(
                   "Crafting Unforgettable Royal Moments",
-                  style: TextStyle(
+                  style: GoogleFonts.poppins(
                     fontSize: 14,
-                    color: Color(0xFFF4E8C1),
+                    color: AppTheme.accentLight,
                     letterSpacing: 1.0,
                   ),
                 ),
@@ -118,7 +113,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                   height: 32,
                   child: CircularProgressIndicator(
                     strokeWidth: 2.5,
-                    valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFD4AF37)),
+                    valueColor: AlwaysStoppedAnimation<Color>(AppTheme.accentLight),
                   ),
                 ),
               ],

@@ -13,6 +13,7 @@ class VendorCard extends StatelessWidget {
   final bool isFavorite;
   final VoidCallback? onFavoriteToggle;
   final double? width;
+  final bool showPrice;
 
   const VendorCard({
     super.key,
@@ -21,15 +22,19 @@ class VendorCard extends StatelessWidget {
     this.isFavorite = false,
     this.onFavoriteToggle,
     this.width = 270,
+    this.showPrice = false,
   });
 
   @override
   Widget build(BuildContext context) {
     final currencyFormatter = NumberFormat.currency(locale: 'en_IN', symbol: '₹', decimalDigits: 0);
+    final bool isFixed = width != null && width != double.infinity;
 
     return Container(
       width: width,
-      margin: const EdgeInsets.only(right: 14, bottom: 4, top: 2),
+      margin: isFixed
+          ? const EdgeInsets.only(right: 14, bottom: 4, top: 2)
+          : EdgeInsets.zero,
       decoration: BoxDecoration(
         color: AppTheme.cardBg,
         borderRadius: BorderRadius.circular(18),
@@ -199,32 +204,34 @@ class VendorCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 6),
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: AppTheme.roseLight,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Starting Price",
-                          style: GoogleFonts.poppins(fontSize: 10, color: AppTheme.textMuted),
+                    if (showPrice) ...[
+                      const SizedBox(height: 6),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: AppTheme.roseLight,
+                          borderRadius: BorderRadius.circular(8),
                         ),
-                        Text(
-                          currencyFormatter.format(vendor.startingPrice),
-                          style: GoogleFonts.poppins(
-                            fontSize: 11.5,
-                            fontWeight: FontWeight.bold,
-                            color: AppTheme.primary,
-                          ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Starting Price",
+                              style: GoogleFonts.poppins(fontSize: 10, color: AppTheme.textMuted),
+                            ),
+                            Text(
+                              currencyFormatter.format(vendor.startingPrice),
+                              style: GoogleFonts.poppins(
+                                fontSize: 11.5,
+                                fontWeight: FontWeight.bold,
+                                color: AppTheme.primary,
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
+                      ),
+                    ],
                 ],
               ),
             ),
