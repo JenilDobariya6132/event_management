@@ -133,12 +133,51 @@ class DestinationVenue {
     if (galleryImages != null && galleryImages!.isNotEmpty) {
       return galleryImages!;
     }
+
+    final String catLower = category.toLowerCase();
+    final String nameLower = name.toLowerCase();
+    final String locLower = location.toLowerCase();
+
+    // 1. Beach & Island Resorts (Goa, Diu, Oceanfront)
+    if (catLower.contains('beach') || locLower.contains('goa') || locLower.contains('diu') || nameLower.contains('beach')) {
+      return [
+        imageUrl,
+        'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=1000', // Ocean Sunset Altar
+        'https://images.unsplash.com/photo-1540541338287-41700207dee6?w=1000', // Poolside Villa
+        'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1000', // Beachfront Cocktail Lawn
+        'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1000', // Tropical Spa & Lagoon
+      ];
+    }
+
+    // 2. Heritage Palaces & Forts (Jaipur, Jodhpur, Udaipur, Vadodara)
+    if (catLower.contains('palace') || catLower.contains('fort') || catLower.contains('heritage') || locLower.contains('jaipur') || locLower.contains('jodhpur') || locLower.contains('udaipur')) {
+      return [
+        imageUrl,
+        'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1000', // Royal Courtyard Mandap
+        'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1000', // Mughal Garden Lawn
+        'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1000', // Chandelier Darbar Ballroom
+        'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1000', // Sheesh Mahal Suite
+      ];
+    }
+
+    // 3. Backwaters & Lake Resorts (Kerala, Kumarakom, Alleppey)
+    if (catLower.contains('lake') || catLower.contains('backwater') || locLower.contains('kerala') || locLower.contains('alleppey') || locLower.contains('kumarakom')) {
+      return [
+        imageUrl,
+        'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=1000', // Houseboat Water Procession
+        'https://images.unsplash.com/photo-1540541338287-41700207dee6?w=1000', // Lakefront Palm Lawn
+        'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1000', // Meandering Lagoon Villa
+        'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1000', // Sunset Lake Terrace Bar
+      ];
+    }
+
+    // 4. Eco / Wilderness / Jungle Resorts (Gir Forest, Kutch Desert, Statue of Unity)
     return [
       imageUrl,
-      'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=1000',
-      'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1000',
-      'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=1000',
-      'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=1000',
+      'https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=1000', // Nature Garden Stage
+      'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=1000', // Starry Night Bonfire Mandap
+      'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1000', // Glass Pavilion Altar
+      'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=1000', // Luxury Tent Suite
     ];
   }
 
@@ -511,6 +550,13 @@ class DestinationModel {
           totalReviews: reviews,
           startingPrice: price,
           imageUrl: imgUrl,
+          galleryImages: [
+            imgUrl,
+            images[(index + 1) % images.length],
+            images[(index + 2) % images.length],
+            images[(index + 3) % images.length],
+            images[(index + 4) % images.length],
+          ],
           description: "Premier $category in $cityName providing magnificent floral mandaps, luxury guest rooms, and royal dining for grand destination weddings.",
           amenities: amenities,
         ),
@@ -1616,6 +1662,13 @@ class DestinationModel {
           totalReviews: 7700,
           startingPrice: 95000.0,
           imageUrl: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800',
+          galleryImages: [
+            'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1000',
+            'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1000',
+            'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1000',
+            'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1000',
+            'https://images.unsplash.com/photo-1540541338287-41700207dee6?w=1000',
+          ],
           description: 'Traditional Haveli-style luxury architecture inspired by royal Rajasthani stepwells, courtyard gardens, and regal banquet halls.',
           amenities: ['Stepwell Pool Courtyard', 'Royal Haveli Suites', 'Multi-Cuisine Gourmet Dining', 'Kaya Kalp Spa'],
         ),
@@ -1628,6 +1681,13 @@ class DestinationModel {
           totalReviews: 8138,
           startingPrice: 135000.0,
           imageUrl: 'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800',
+          galleryImages: [
+            'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1000',
+            'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1000',
+            'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1000',
+            'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1000',
+            'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1000',
+          ],
           description: 'Former residence of the Maharaja of Jaipur, featuring 47 acres of manicured Mughal gardens, historic regal suites, and iconic royal mandap lawns.',
           amenities: ['47-Acre Mughal Gardens', 'Maharaja Luxury Suites', 'Royal Elephant Welcome', 'Taj Fine Dining'],
         ),
@@ -1640,6 +1700,13 @@ class DestinationModel {
           totalReviews: 2436,
           startingPrice: 90000.0,
           imageUrl: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=800',
+          galleryImages: [
+            'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1000',
+            'https://images.unsplash.com/photo-1568084680786-a84f91d1153c?w=1000',
+            'https://images.unsplash.com/photo-1540541338287-41700207dee6?w=1000',
+            'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1000',
+            'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1000',
+          ],
           description: 'Avant-garde jewel-themed luxury palace resort set against the Aravalli hills, featuring geometric mirror maze courtyards and open sky mandaps.',
           amenities: ['Aravalli Sky Lawns', 'Mirror Pavilion Mandap', 'Jiva Spa Sanctuary', 'Infinity Pool Bar'],
         ),
@@ -1652,6 +1719,13 @@ class DestinationModel {
           totalReviews: 3120,
           startingPrice: 75000.0,
           imageUrl: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800',
+          galleryImages: [
+            'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1000',
+            'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1000',
+            'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1000',
+            'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1000',
+            'https://images.unsplash.com/photo-1540541338287-41700207dee6?w=1000',
+          ],
           description: 'Rooftop plunge pool hotel featuring lavish crystal ballrooms and manicured cocktail lawns near central Pink City.',
           amenities: ['Rooftop Plunge Pool', 'Crystal Ballroom', 'Multi-Cuisine Dining', 'Luxury Suites'],
         ),
@@ -1664,6 +1738,13 @@ class DestinationModel {
           totalReviews: 3450,
           startingPrice: 120000.0,
           imageUrl: 'https://images.unsplash.com/photo-1568084680786-a84f91d1153c?w=800',
+          galleryImages: [
+            'https://images.unsplash.com/photo-1568084680786-a84f91d1153c?w=1000',
+            'https://images.unsplash.com/photo-1540541338287-41700207dee6?w=1000',
+            'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1000',
+            'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1000',
+            'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1000',
+          ],
           description: '32-acre fort-style luxury resort featuring private pool villas, royal tented canopies, and 280-year-old Shiva temple courtyards.',
           amenities: ['Private Pool Villas', 'Royal Luxury Tents', 'Spa & Wellness Sanctuary', 'Fort Architecture'],
         ),
@@ -1676,6 +1757,13 @@ class DestinationModel {
           totalReviews: 1850,
           startingPrice: 110000.0,
           imageUrl: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800',
+          galleryImages: [
+            'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1000',
+            'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1000',
+            'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1000',
+            'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1000',
+            'https://images.unsplash.com/photo-1568084680786-a84f91d1153c?w=1000',
+          ],
           description: 'Restored 1727 AD royal palace featuring museum suites, crystal chandeliers, gold leaf courtyards, and royal Darbar halls.',
           amenities: ['Gold Leaf Darbar Hall', 'Royal Museum Suites', 'Courtyard Mandap', 'Royal Charbagh Garden'],
         ),
@@ -1688,6 +1776,13 @@ class DestinationModel {
           totalReviews: 920,
           startingPrice: 125000.0,
           imageUrl: 'https://images.unsplash.com/photo-1477587458883-47145ed94245?w=800',
+          galleryImages: [
+            'https://images.unsplash.com/photo-1477587458883-47145ed94245?w=1000',
+            'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1000',
+            'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1000',
+            'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1000',
+            'https://images.unsplash.com/photo-1540541338287-41700207dee6?w=1000',
+          ],
           description: 'Tribute to Maharaja Sawai Man Singh II featuring regal Rajput suites, private plunged courtyards, and grand heritage wedding lawns.',
           amenities: ['Regal Rajput Lawns', 'Private Plunge Pool Suites', 'Taj Culinary Dining', 'Royal Marwari Welcome'],
         ),
@@ -1700,6 +1795,13 @@ class DestinationModel {
           totalReviews: 1420,
           startingPrice: 85000.0,
           imageUrl: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800',
+          galleryImages: [
+            'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1000',
+            'https://images.unsplash.com/photo-1540541338287-41700207dee6?w=1000',
+            'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1000',
+            'https://images.unsplash.com/photo-1568084680786-a84f91d1153c?w=1000',
+            'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1000',
+          ],
           description: 'French-inspired luxury villa resort surrounded by Aravalli hills, featuring private pool garden villas and scenic wedding grounds.',
           amenities: ['Private Garden Villas', 'Aravalli Hill Backdrops', 'French & Indian Gastronomy', 'Luxury Wellness Spa'],
         ),
