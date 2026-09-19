@@ -691,12 +691,33 @@ class VendorProvider with ChangeNotifier {
         isPopular: true,
         packages: [
           DestinationPackage(
-            id: 9,
-            packageName: 'Narmada Royal Tent City Experience',
+            id: 901,
+            packageName: 'Narmada Royal Tent City 1 Experience',
             price: 1700000.0,
             duration: '3 Days / 2 Nights',
             inclusions: ['Grand Narmada Riverfront Mandap', 'Luxury AC Tent Stay for 150 Guests', 'Authentic Gujarati Thali & Global Buffet', 'Laser Light Show & Sangeet Setup'],
-          )
+          ),
+          DestinationPackage(
+            id: 902,
+            packageName: 'Unity Village Eco-Cottage Wedding Package',
+            price: 1500000.0,
+            duration: '3 Days / 2 Nights',
+            inclusions: ['Nature Mountain Lawn Mandap', 'Luxury Cottages Stay for 120 Guests', 'Organic Farm-to-Table Catering', 'Folk Garba & Bonfire Sangeet'],
+          ),
+          DestinationPackage(
+            id: 903,
+            packageName: 'Vivanta Ekta Nagar 5-Star Grand Gala',
+            price: 2200000.0,
+            duration: '3 Days / 2 Nights',
+            inclusions: ['Royal Ballroom & Riverfront Deck', '5-Star Luxury Suites for 200 Guests', 'Multi-Catering Gourmet Feast', 'Helipad Arrival & Laser Show'],
+          ),
+          DestinationPackage(
+            id: 904,
+            packageName: 'Villa Euphoria Private Villa Sanctuary',
+            price: 1650000.0,
+            duration: '3 Days / 2 Nights',
+            inclusions: ['Private Villa Courtyard Mandap', 'Poolside Cocktail & DJ Night', 'Luxury Accommodations for 100 Guests', 'Bridal Suite & Spa Credit'],
+          ),
         ],
       ),
       DestinationModel(
@@ -727,12 +748,26 @@ class VendorProvider with ChangeNotifier {
         isPopular: true,
         packages: [
           DestinationPackage(
-            id: 10,
-            packageName: 'Kutch Moonlit White Desert Package',
+            id: 1001,
+            packageName: 'Rann Utsav Tent City Royal Darbari Package',
             price: 2100000.0,
             duration: '3 Days / 2 Nights',
-            inclusions: ['White Desert Glass Mandap', 'Camel Safari Procession for Groom', 'Kutchi Garba & Folk Night', 'Traditional Kutchi Buffet & Handicrafts'],
-          )
+            inclusions: ['White Desert Glass Mandap', 'Darbari Luxury Suite Stay for 150 Guests', 'Camel Safari Procession for Groom', 'Kutchi Garba & Folk Night', 'Traditional Kutchi Buffet & Handicrafts'],
+          ),
+          DestinationPackage(
+            id: 1002,
+            packageName: 'Praveg White Rann Rajwadi Bhunga Experience',
+            price: 1950000.0,
+            duration: '3 Days / 2 Nights',
+            inclusions: ['Rajwadi AC Bhunga Stay for 120 Guests', 'White Desert Entry & Sunset Mandap', 'Royal Kutchi Feast', 'Folk Music Ensemble'],
+          ),
+          DestinationPackage(
+            id: 1003,
+            packageName: 'Rann Visamo Village Heritage Wedding',
+            price: 1600000.0,
+            duration: '3 Days / 2 Nights',
+            inclusions: ['Traditional Village Sangeet Lawn', 'Luxury Bhungas Stay for 100 Guests', 'Kutchi Handicrafts & Thali Dining', 'Star Gazing & Bonfire Party'],
+          ),
         ],
       ),
       DestinationModel(
@@ -826,6 +861,38 @@ class VendorProvider with ChangeNotifier {
         ],
       ),
       DestinationModel(
+        id: 13,
+        title: 'Vadodara Laxmi Vilas Palace',
+        location: 'Vadodara, Gujarat',
+        description: 'Majestic Indo-Saracenic royal palace lawns four times the size of Buckingham Palace.',
+        imageUrl: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=800&q=80',
+        startingPrice: 3000000.0,
+        isPopular: true,
+        packages: [
+          DestinationPackage(
+            id: 1301,
+            packageName: 'Laxmi Vilas Royal Palace Grandeur',
+            price: 3000000.0,
+            duration: '3 Days / 2 Nights',
+            inclusions: ['Palace Courtyard Mandap Rental', 'Royal Maratha Elephant Welcome', 'Lavish 50+ Item Gourmet Spread', 'Chandelier Lighting & Royal Guard'],
+          ),
+          DestinationPackage(
+            id: 1302,
+            packageName: 'Vivanta Vadodara 5-Star Luxury Package',
+            price: 2400000.0,
+            duration: '3 Days / 2 Nights',
+            inclusions: ['IHCL Grand Ballroom & Poolside Lawn', '120 5-Star Luxury Suites for Guests', 'Multi-Catering International Feast', 'Spa & Pampering for Couple'],
+          ),
+          DestinationPackage(
+            id: 1303,
+            packageName: 'Courtyard Marriott Subhanpura Celebration',
+            price: 2200000.0,
+            duration: '3 Days / 2 Nights',
+            inclusions: ['Marriott Grand Banquet Hall', 'Rooftop Cocktail Sundowner', 'Luxury Suite Stay for Family', 'Signature Marriott Chef Buffet'],
+          ),
+        ],
+      ),
+      DestinationModel(
         id: 14,
         title: 'Surat Tapi Riverfront Resort',
         location: 'Surat, Gujarat',
@@ -835,12 +902,33 @@ class VendorProvider with ChangeNotifier {
         isPopular: true,
         packages: [
           DestinationPackage(
-            id: 14,
-            packageName: 'Surat Tapi Riverfront Diamond Package',
+            id: 1401,
+            packageName: 'Surat Marriott Tapi Riverfront Luxury Gala',
+            price: 2200000.0,
+            duration: '3 Days / 2 Nights',
+            inclusions: ['Tapi Riverfront Lawn & Floating Stage', '5-Star Marriott Suites for 150 Guests', 'Surti & International Buffet', 'LED Sangeet Stage & Fireworks'],
+          ),
+          DestinationPackage(
+            id: 1402,
+            packageName: 'Le Méridien Surat Airport Garden Package',
+            price: 2000000.0,
+            duration: '3 Days / 2 Nights',
+            inclusions: ['Expansive Garden Mandap', 'Pure Veg Gourmet Banquet Catering', 'Luxury Accommodation for 120 Guests', 'Airport Guest Transfers'],
+          ),
+          DestinationPackage(
+            id: 1403,
+            packageName: 'Courtyard Marriott Pal Gam Celebration',
             price: 1850000.0,
             duration: '3 Days / 2 Nights',
-            inclusions: ['Tapi Riverfront Floating Stage', 'Surti Gourmet Catered Feast', 'Grand LED Sangeet Stage', 'Luxury Suite Stay for Family'],
-          )
+            inclusions: ['Poolside Sundowner Deck & Mandap', 'Ballroom Reception Stage', 'Luxury Suite Stay for Family', 'Signature Marriott Catering'],
+          ),
+          DestinationPackage(
+            id: 1404,
+            packageName: 'Vedik Mega Resort Destination Experience',
+            price: 1750000.0,
+            duration: '3 Days / 2 Nights',
+            inclusions: ['10-Acre Resort Grounds Rental', '176 Rooms for Wedding Guests', 'Massive Banquet Hall & Lawn Stage', 'Full Catering & Lighting'],
+          ),
         ],
       ),
       DestinationModel(
@@ -871,12 +959,33 @@ class VendorProvider with ChangeNotifier {
         isPopular: true,
         packages: [
           DestinationPackage(
-            id: 12,
-            packageName: 'Dwarka Coastal Holy Vows Package',
+            id: 1201,
+            packageName: 'The Fern Sattva 5-Star Eco Resort Celebration',
+            price: 1800000.0,
+            duration: '3 Days / 2 Nights',
+            inclusions: ['8-Acre Event Lawn & Altar Mandap', '5-Star Eco Resort Stay for 150 Guests', 'Pure Veg & Jain Gourmet Feast', 'Shehnai Welcome & Vedic Blessing'],
+          ),
+          DestinationPackage(
+            id: 1202,
+            packageName: 'Hawthorn Suites Arabian Sea Beach Package',
+            price: 1650000.0,
+            duration: '3 Days / 2 Nights',
+            inclusions: ['Arabian Sea Beachfront Mandap', 'Luxury Villas for 120 Guests', 'Seaside Sunset Cocktail Party', 'Pure Veg Kathiyawadi Catering'],
+          ),
+          DestinationPackage(
+            id: 1203,
+            packageName: 'VITS Devbhumi Temple Blessing Package',
             price: 1400000.0,
             duration: '2 Days / 2 Nights',
-            inclusions: ['Seaside Temple Altar Setup', 'Traditional Shehnai & Vedic Chants', 'Pure Jain & Pure Veg Feast', 'Sunset Beach Reception'],
-          )
+            inclusions: ['Temple View Lawn Altar Setup', 'Traditional Shehnai & Chants', 'Pure Jain & Pure Veg Feast', 'Sunset Beach Reception'],
+          ),
+          DestinationPackage(
+            id: 1204,
+            packageName: 'Shivrajpur Blue Flag Beach Sunset Mandap',
+            price: 1550000.0,
+            duration: '2 Days / 2 Nights',
+            inclusions: ['Blue Flag White Sand Sunset Mandap', 'Luxury AC Beach Tents', 'Live Acoustic Shehnai', 'Seaside Sunset Feast'],
+          ),
         ],
       ),
       DestinationModel(
@@ -907,12 +1016,33 @@ class VendorProvider with ChangeNotifier {
         isPopular: true,
         packages: [
           DestinationPackage(
-            id: 15,
-            packageName: 'Diu Fort Colonial Beach Package',
+            id: 1501,
+            packageName: 'Praveg Nagoa Beach 5-Star Luxury Package',
+            price: 2100000.0,
+            duration: '3 Days / 2 Nights',
+            inclusions: ['Direct Nagoa Beach Mandap', '5-Star Beach Chalets for 150 Guests', 'Seafood & Global Barbecue Feast', 'Portuguese Live Music & DJ'],
+          ),
+          DestinationPackage(
+            id: 1502,
+            packageName: 'Gateway Diu IHCL SeleQtions Fort Heritage Gala',
+            price: 2300000.0,
+            duration: '3 Days / 2 Nights',
+            inclusions: ['Diu Fort View Rampart Terrace', 'IHCL Imperial Suites for 120 Guests', 'Fine Dining Gourmet Feast', 'Vintage Car Groom Entry'],
+          ),
+          DestinationPackage(
+            id: 1503,
+            packageName: 'The Fern Seaside Nagoa Palm Grove Wedding',
+            price: 1850000.0,
+            duration: '3 Days / 2 Nights',
+            inclusions: ['Coconut Palm Grove Lawn Stage', 'Eco Chalets for 100 Guests', 'Seaside Bar & Grill Buffet', 'Poolside Sundowner Party'],
+          ),
+          DestinationPackage(
+            id: 1504,
+            packageName: 'Radhika Beach Resort & Spa Portuguese Package',
             price: 1750000.0,
             duration: '2 Days / 2 Nights',
-            inclusions: ['Cliffside Sea View Mandap', 'Beachside Sunset Bar & Grill', 'Live Jazz & Portuguese Music', 'Vintage Car Bride Entry'],
-          )
+            inclusions: ['Cliffside Sea View Mandap', 'Beachside Sunset Bar & Grill', 'Live Jazz & Portuguese Music', 'Spa pampering for Couple'],
+          ),
         ],
       ),
       DestinationModel(

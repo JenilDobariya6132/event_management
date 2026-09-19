@@ -348,6 +348,66 @@ class _VenueDetailsScreenState extends State<VenueDetailsScreen> {
                       ),
                       const SizedBox(height: 24),
 
+                      // Operating & Event Timings Card
+                      Text(
+                        "Operating Hours & Event Timings",
+                        style: GoogleFonts.playfairDisplay(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: AppTheme.primary,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: AppTheme.cardBg,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: AppTheme.accent.withValues(alpha: 0.3)),
+                          boxShadow: AppTheme.luxuryShadow,
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: AppTheme.primary.withValues(alpha: 0.08),
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Icon(Icons.access_time_filled, color: AppTheme.primary, size: 22),
+                            ),
+                            const SizedBox(width: 14),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Timings & Visiting Hours",
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppTheme.primary,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    widget.venue.getOperatingHours(),
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 12,
+                                      color: AppTheme.textDark,
+                                      height: 1.5,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+
                       // Premium Amenities & Features
                       Text(
                         "Amenities & Facilities",
